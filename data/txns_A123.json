@@ -1,0 +1,1192 @@
+[
+{
+"id": "t001",
+"accountId": "A123",
+"postedAt": "2025-02-05T15:12:00Z",
+"direction": "debit",
+"amount": 92.14,
+"signedAmount": -92.14,
+"merchant": {
+"name": "Whole Foods",
+"category": "Groceries",
+"subcategory": "Supermarket"
+},
+"description": "Whole Foods Market",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t002",
+"accountId": "A123",
+"postedAt": "2025-03-20T18:45:00Z",
+"direction": "debit",
+"amount": 132.78,
+"signedAmount": -132.78,
+"merchant": {
+"name": "Amazon",
+"category": "Shopping",
+"subcategory": "Online Retail"
+},
+"description": "AMZN Mktp US",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t003",
+"accountId": "A123",
+"postedAt": "2025-04-14T09:05:00Z",
+"direction": "debit",
+"amount": 79.99,
+"signedAmount": -79.99,
+"merchant": {
+"name": "Verizon Fios",
+"category": "Utilities",
+"subcategory": "Internet"
+},
+"description": "Verizon Fios Internet",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t004",
+"accountId": "A123",
+"postedAt": "2025-04-25T21:10:00Z",
+"direction": "debit",
+"amount": 24.15,
+"signedAmount": -24.15,
+"merchant": {
+"name": "Uber",
+"category": "Transport",
+"subcategory": "Rideshare"
+},
+"description": "Uber Trip",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t005",
+"accountId": "A123",
+"postedAt": "2025-05-01T06:05:00Z",
+"direction": "debit",
+"amount": 1950.0,
+"signedAmount": -1950.0,
+"merchant": {
+"name": "Main Street Apartments",
+"category": "Housing",
+"subcategory": "Rent"
+},
+"description": "Monthly Rent",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t006",
+"accountId": "A123",
+"postedAt": "2025-05-05T17:22:00Z",
+"direction": "debit",
+"amount": 104.62,
+"signedAmount": -104.62,
+"merchant": {
+"name": "Whole Foods",
+"category": "Groceries",
+"subcategory": "Supermarket"
+},
+"description": "Whole Foods Market",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t007",
+"accountId": "A123",
+"postedAt": "2025-05-19T20:14:00Z",
+"direction": "debit",
+"amount": 216.34,
+"signedAmount": -216.34,
+"merchant": {
+"name": "Amazon",
+"category": "Shopping",
+"subcategory": "Online Retail"
+},
+"description": "Amazon.com",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t008",
+"accountId": "A123",
+"postedAt": "2025-06-01T06:05:00Z",
+"direction": "debit",
+"amount": 1950.0,
+"signedAmount": -1950.0,
+"merchant": {
+"name": "Main Street Apartments",
+"category": "Housing",
+"subcategory": "Rent"
+},
+"description": "Monthly Rent",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t009",
+"accountId": "A123",
+"postedAt": "2025-06-03T16:48:00Z",
+"direction": "debit",
+"amount": 86.55,
+"signedAmount": -86.55,
+"merchant": {
+"name": "Whole Foods",
+"category": "Groceries",
+"subcategory": "Supermarket"
+},
+"description": "Whole Foods Market",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t010",
+"accountId": "A123",
+"postedAt": "2025-06-10T22:03:00Z",
+"direction": "debit",
+"amount": 32.4,
+"signedAmount": -32.4,
+"merchant": {
+"name": "Uber",
+"category": "Transport",
+"subcategory": "Rideshare"
+},
+"description": "Uber Trip",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t011",
+"accountId": "A123",
+"postedAt": "2025-06-21T13:12:00Z",
+"direction": "debit",
+"amount": 27.19,
+"signedAmount": -27.19,
+"merchant": {
+"name": "CVS Pharmacy",
+"category": "Health",
+"subcategory": "Pharmacy"
+},
+"description": "CVS Pharmacy",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t012",
+"accountId": "A123",
+"postedAt": "2025-07-01T06:05:00Z",
+"direction": "debit",
+"amount": 1950.0,
+"signedAmount": -1950.0,
+"merchant": {
+"name": "Main Street Apartments",
+"category": "Housing",
+"subcategory": "Rent"
+},
+"description": "Monthly Rent",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t013",
+"accountId": "A123",
+"postedAt": "2025-07-04T14:30:00Z",
+"direction": "debit",
+"amount": 5.95,
+"signedAmount": -5.95,
+"merchant": {
+"name": "La Colombe Coffee",
+"category": "Food",
+"subcategory": "Coffee"
+},
+"description": "La Colombe",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t014",
+"accountId": "A123",
+"postedAt": "2025-07-15T18:10:00Z",
+"direction": "debit",
+"amount": 142.08,
+"signedAmount": -142.08,
+"merchant": {
+"name": "Whole Foods",
+"category": "Groceries",
+"subcategory": "Supermarket"
+},
+"description": "Whole Foods Market",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t015",
+"accountId": "A123",
+"postedAt": "2025-07-22T19:55:00Z",
+"direction": "debit",
+"amount": 73.11,
+"signedAmount": -73.11,
+"merchant": {
+"name": "Amazon",
+"category": "Shopping",
+"subcategory": "Online Retail"
+},
+"description": "AMZN Digital",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t016",
+"accountId": "A123",
+"postedAt": "2025-07-27T23:20:00Z",
+"direction": "debit",
+"amount": 18.6,
+"signedAmount": -18.6,
+"merchant": {
+"name": "Uber",
+"category": "Transport",
+"subcategory": "Rideshare"
+},
+"description": "Uber Trip",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t017",
+"accountId": "A123",
+"postedAt": "2025-08-01T06:05:00Z",
+"direction": "debit",
+"amount": 1950.0,
+"signedAmount": -1950.0,
+"merchant": {
+"name": "Main Street Apartments",
+"category": "Housing",
+"subcategory": "Rent"
+},
+"description": "Monthly Rent",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t018",
+"accountId": "A123",
+"postedAt": "2025-08-08T13:00:00Z",
+"direction": "credit",
+"amount": 3285.5,
+"signedAmount": 3285.5,
+"merchant": {
+"name": "Payroll",
+"category": "Income",
+"subcategory": "Salary"
+},
+"description": "Payroll Deposit",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t019",
+"accountId": "A123",
+"postedAt": "2025-08-09T16:10:00Z",
+"direction": "debit",
+"amount": 96.41,
+"signedAmount": -96.41,
+"merchant": {
+"name": "Whole Foods",
+"category": "Groceries",
+"subcategory": "Supermarket"
+},
+"description": "Whole Foods Market",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t020",
+"accountId": "A123",
+"postedAt": "2025-08-12T19:40:00Z",
+"direction": "debit",
+"amount": 39.67,
+"signedAmount": -39.67,
+"merchant": {
+"name": "Amazon",
+"category": "Shopping",
+"subcategory": "Online Retail"
+},
+"description": "Amazon.com",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t021",
+"accountId": "A123",
+"postedAt": "2025-08-15T21:05:00Z",
+"direction": "debit",
+"amount": 21.8,
+"signedAmount": -21.8,
+"merchant": {
+"name": "Uber",
+"category": "Transport",
+"subcategory": "Rideshare"
+},
+"description": "Uber Trip",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t022",
+"accountId": "A123",
+"postedAt": "2025-08-22T13:00:00Z",
+"direction": "credit",
+"amount": 3320.25,
+"signedAmount": 3320.25,
+"merchant": {
+"name": "Payroll",
+"category": "Income",
+"subcategory": "Salary"
+},
+"description": "Payroll Deposit",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t023",
+"accountId": "A123",
+"postedAt": "2025-08-27T15:35:00Z",
+"direction": "debit",
+"amount": 7.25,
+"signedAmount": -7.25,
+"merchant": {
+"name": "Starbucks",
+"category": "Food",
+"subcategory": "Coffee"
+},
+"description": "Starbucks",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t024",
+"accountId": "A123",
+"postedAt": "2025-09-01T06:05:00Z",
+"direction": "debit",
+"amount": 1950.0,
+"signedAmount": -1950.0,
+"merchant": {
+"name": "Main Street Apartments",
+"category": "Housing",
+"subcategory": "Rent"
+},
+"description": "Monthly Rent",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t025",
+"accountId": "A123",
+"postedAt": "2025-09-03T20:20:00Z",
+"direction": "debit",
+"amount": 154.29,
+"signedAmount": -154.29,
+"merchant": {
+"name": "Amazon",
+"category": "Shopping",
+"subcategory": "Online Retail"
+},
+"description": "Amazon Marketplace",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t026",
+"accountId": "A123",
+"postedAt": "2025-09-05T13:00:00Z",
+"direction": "credit",
+"amount": 3298.1,
+"signedAmount": 3298.1,
+"merchant": {
+"name": "Payroll",
+"category": "Income",
+"subcategory": "Salary"
+},
+"description": "Payroll Deposit",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t027",
+"accountId": "A123",
+"postedAt": "2025-09-07T22:15:00Z",
+"direction": "debit",
+"amount": 16.9,
+"signedAmount": -16.9,
+"merchant": {
+"name": "Uber",
+"category": "Transport",
+"subcategory": "Rideshare"
+},
+"description": "Uber Trip",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t028",
+"accountId": "A123",
+"postedAt": "2025-09-10T17:30:00Z",
+"direction": "debit",
+"amount": 121.76,
+"signedAmount": -121.76,
+"merchant": {
+"name": "Whole Foods",
+"category": "Groceries",
+"subcategory": "Supermarket"
+},
+"description": "Whole Foods Market",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t029",
+"accountId": "A123",
+"postedAt": "2025-09-12T12:10:00Z",
+"direction": "debit",
+"amount": 12.6,
+"signedAmount": -12.6,
+"merchant": {
+"name": "Federal Donuts",
+"category": "Food",
+"subcategory": "Fast Food"
+},
+"description": "Federal Donuts",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t030",
+"accountId": "A123",
+"postedAt": "2025-09-13T07:15:00Z",
+"direction": "debit",
+"amount": 112.48,
+"signedAmount": -112.48,
+"merchant": {
+"name": "PECO",
+"category": "Utilities",
+"subcategory": "Electric"
+},
+"description": "PECO Electric Bill",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t031",
+"accountId": "A123",
+"postedAt": "2025-09-15T22:40:00Z",
+"direction": "debit",
+"amount": 17.45,
+"signedAmount": -17.45,
+"merchant": {
+"name": "Uber",
+"category": "Transport",
+"subcategory": "Rideshare"
+},
+"description": "Uber Trip",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t032",
+"accountId": "A123",
+"postedAt": "2025-09-16T19:05:00Z",
+"direction": "debit",
+"amount": 58.19,
+"signedAmount": -58.19,
+"merchant": {
+"name": "Amazon",
+"category": "Shopping",
+"subcategory": "Online Retail"
+},
+"description": "AMZN Mktp US",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t033",
+"accountId": "A123",
+"postedAt": "2025-09-18T17:55:00Z",
+"direction": "debit",
+"amount": 134.22,
+"signedAmount": -134.22,
+"merchant": {
+"name": "Whole Foods",
+"category": "Groceries",
+"subcategory": "Supermarket"
+},
+"description": "Whole Foods Market",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t034",
+"accountId": "A123",
+"postedAt": "2025-09-19T13:00:00Z",
+"direction": "credit",
+"amount": 3310.0,
+"signedAmount": 3310.0,
+"merchant": {
+"name": "Payroll",
+"category": "Income",
+"subcategory": "Salary"
+},
+"description": "Payroll Deposit",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t035",
+"accountId": "A123",
+"postedAt": "2025-09-20T08:02:00Z",
+"direction": "debit",
+"amount": 11.99,
+"signedAmount": -11.99,
+"merchant": {
+"name": "Spotify",
+"category": "Subscriptions",
+"subcategory": "Music"
+},
+"description": "Spotify Premium",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t036",
+"accountId": "A123",
+"postedAt": "2025-09-21T18:25:00Z",
+"direction": "debit",
+"amount": 18.25,
+"signedAmount": -18.25,
+"merchant": {
+"name": "Sweetgreen",
+"category": "Food",
+"subcategory": "Restaurant"
+},
+"description": "Sweetgreen",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t037",
+"accountId": "A123",
+"postedAt": "2025-09-22T09:12:00Z",
+"direction": "debit",
+"amount": 15.49,
+"signedAmount": -15.49,
+"merchant": {
+"name": "Netflix",
+"category": "Subscriptions",
+"subcategory": "Streaming"
+},
+"description": "Netflix.com",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t038",
+"accountId": "A123",
+"postedAt": "2025-09-24T16:50:00Z",
+"direction": "debit",
+"amount": 78.46,
+"signedAmount": -78.46,
+"merchant": {
+"name": "Whole Foods",
+"category": "Groceries",
+"subcategory": "Supermarket"
+},
+"description": "Whole Foods Market",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t039",
+"accountId": "A123",
+"postedAt": "2025-09-26T23:05:00Z",
+"direction": "debit",
+"amount": 26.7,
+"signedAmount": -26.7,
+"merchant": {
+"name": "Uber",
+"category": "Transport",
+"subcategory": "Rideshare"
+},
+"description": "Uber Trip",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t040",
+"accountId": "A123",
+"postedAt": "2025-09-29T07:20:00Z",
+"direction": "debit",
+"amount": 96.12,
+"signedAmount": -96.12,
+"merchant": {
+"name": "PECO",
+"category": "Utilities",
+"subcategory": "Electric"
+},
+"description": "PECO Electric Bill",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t041",
+"accountId": "A123",
+"postedAt": "2025-10-01T06:05:00Z",
+"direction": "debit",
+"amount": 1950.0,
+"signedAmount": -1950.0,
+"merchant": {
+"name": "Main Street Apartments",
+"category": "Housing",
+"subcategory": "Rent"
+},
+"description": "Monthly Rent",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t042",
+"accountId": "A123",
+"postedAt": "2025-10-02T17:40:00Z",
+"direction": "debit",
+"amount": 109.37,
+"signedAmount": -109.37,
+"merchant": {
+"name": "Whole Foods",
+"category": "Groceries",
+"subcategory": "Supermarket"
+},
+"description": "Whole Foods Market",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t043",
+"accountId": "A123",
+"postedAt": "2025-10-03T13:00:00Z",
+"direction": "credit",
+"amount": 3335.75,
+"signedAmount": 3335.75,
+"merchant": {
+"name": "Payroll",
+"category": "Income",
+"subcategory": "Salary"
+},
+"description": "Payroll Deposit",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t044",
+"accountId": "A123",
+"postedAt": "2025-10-05T21:18:00Z",
+"direction": "debit",
+"amount": 14.8,
+"signedAmount": -14.8,
+"merchant": {
+"name": "Uber",
+"category": "Transport",
+"subcategory": "Rideshare"
+},
+"description": "Uber Trip",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t045",
+"accountId": "A123",
+"postedAt": "2025-10-07T20:05:00Z",
+"direction": "debit",
+"amount": 245.67,
+"signedAmount": -245.67,
+"merchant": {
+"name": "Amazon",
+"category": "Shopping",
+"subcategory": "Online Retail"
+},
+"description": "Amazon.com",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t046",
+"accountId": "A123",
+"postedAt": "2025-10-12T16:35:00Z",
+"direction": "debit",
+"amount": 88.15,
+"signedAmount": -88.15,
+"merchant": {
+"name": "Whole Foods",
+"category": "Groceries",
+"subcategory": "Supermarket"
+},
+"description": "Whole Foods Market",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t047",
+"accountId": "A123",
+"postedAt": "2025-10-17T13:00:00Z",
+"direction": "credit",
+"amount": 3302.4,
+"signedAmount": 3302.4,
+"merchant": {
+"name": "Payroll",
+"category": "Income",
+"subcategory": "Salary"
+},
+"description": "Payroll Deposit",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t048",
+"accountId": "A123",
+"postedAt": "2025-10-20T08:02:00Z",
+"direction": "debit",
+"amount": 11.99,
+"signedAmount": -11.99,
+"merchant": {
+"name": "Spotify",
+"category": "Subscriptions",
+"subcategory": "Music"
+},
+"description": "Spotify Premium",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t049",
+"accountId": "A123",
+"postedAt": "2025-10-22T09:12:00Z",
+"direction": "debit",
+"amount": 15.49,
+"signedAmount": -15.49,
+"merchant": {
+"name": "Netflix",
+"category": "Subscriptions",
+"subcategory": "Streaming"
+},
+"description": "Netflix.com",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t050",
+"accountId": "A123",
+"postedAt": "2025-10-28T07:20:00Z",
+"direction": "debit",
+"amount": 104.77,
+"signedAmount": -104.77,
+"merchant": {
+"name": "PECO",
+"category": "Utilities",
+"subcategory": "Electric"
+},
+"description": "PECO Electric Bill",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t051",
+"accountId": "A123",
+"postedAt": "2025-10-31T13:00:00Z",
+"direction": "credit",
+"amount": 3340.1,
+"signedAmount": 3340.1,
+"merchant": {
+"name": "Payroll",
+"category": "Income",
+"subcategory": "Salary"
+},
+"description": "Payroll Deposit",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t052",
+"accountId": "A123",
+"postedAt": "2025-11-01T06:05:00Z",
+"direction": "debit",
+"amount": 1950.0,
+"signedAmount": -1950.0,
+"merchant": {
+"name": "Main Street Apartments",
+"category": "Housing",
+"subcategory": "Rent"
+},
+"description": "Monthly Rent",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t053",
+"accountId": "A123",
+"postedAt": "2025-11-02T15:50:00Z",
+"direction": "debit",
+"amount": 97.88,
+"signedAmount": -97.88,
+"merchant": {
+"name": "Whole Foods",
+"category": "Groceries",
+"subcategory": "Supermarket"
+},
+"description": "Whole Foods Market",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t054",
+"accountId": "A123",
+"postedAt": "2025-11-04T21:30:00Z",
+"direction": "debit",
+"amount": 33.2,
+"signedAmount": -33.2,
+"merchant": {
+"name": "Uber",
+"category": "Transport",
+"subcategory": "Rideshare"
+},
+"description": "Uber Trip",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t055",
+"accountId": "A123",
+"postedAt": "2025-11-06T19:22:00Z",
+"direction": "debit",
+"amount": 28.94,
+"signedAmount": -28.94,
+"merchant": {
+"name": "Amazon",
+"category": "Shopping",
+"subcategory": "Online Retail"
+},
+"description": "AMZN Mktp US",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t056",
+"accountId": "A123",
+"postedAt": "2025-11-14T13:00:00Z",
+"direction": "credit",
+"amount": 3328.6,
+"signedAmount": 3328.6,
+"merchant": {
+"name": "Payroll",
+"category": "Income",
+"subcategory": "Salary"
+},
+"description": "Payroll Deposit",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t057",
+"accountId": "A123",
+"postedAt": "2025-11-15T20:10:00Z",
+"direction": "debit",
+"amount": 189.22,
+"signedAmount": -189.22,
+"merchant": {
+"name": "Amazon",
+"category": "Shopping",
+"subcategory": "Online Retail"
+},
+"description": "Amazon.com",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t058",
+"accountId": "A123",
+"postedAt": "2025-11-20T08:02:00Z",
+"direction": "debit",
+"amount": 11.99,
+"signedAmount": -11.99,
+"merchant": {
+"name": "Spotify",
+"category": "Subscriptions",
+"subcategory": "Music"
+},
+"description": "Spotify Premium",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t059",
+"accountId": "A123",
+"postedAt": "2025-11-22T09:12:00Z",
+"direction": "debit",
+"amount": 15.49,
+"signedAmount": -15.49,
+"merchant": {
+"name": "Netflix",
+"category": "Subscriptions",
+"subcategory": "Streaming"
+},
+"description": "Netflix.com",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t060",
+"accountId": "A123",
+"postedAt": "2025-11-25T16:05:00Z",
+"direction": "debit",
+"amount": 156.43,
+"signedAmount": -156.43,
+"merchant": {
+"name": "Whole Foods",
+"category": "Groceries",
+"subcategory": "Supermarket"
+},
+"description": "Whole Foods Market",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t061",
+"accountId": "A123",
+"postedAt": "2025-11-28T13:00:00Z",
+"direction": "credit",
+"amount": 3315.3,
+"signedAmount": 3315.3,
+"merchant": {
+"name": "Payroll",
+"category": "Income",
+"subcategory": "Salary"
+},
+"description": "Payroll Deposit",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t062",
+"accountId": "A123",
+"postedAt": "2025-12-01T06:05:00Z",
+"direction": "debit",
+"amount": 1950.0,
+"signedAmount": -1950.0,
+"merchant": {
+"name": "Main Street Apartments",
+"category": "Housing",
+"subcategory": "Rent"
+},
+"description": "Monthly Rent",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t063",
+"accountId": "A123",
+"postedAt": "2025-12-03T17:15:00Z",
+"direction": "debit",
+"amount": 111.09,
+"signedAmount": -111.09,
+"merchant": {
+"name": "Whole Foods",
+"category": "Groceries",
+"subcategory": "Supermarket"
+},
+"description": "Whole Foods Market",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t064",
+"accountId": "A123",
+"postedAt": "2025-12-04T22:05:00Z",
+"direction": "debit",
+"amount": 19.6,
+"signedAmount": -19.6,
+"merchant": {
+"name": "Uber",
+"category": "Transport",
+"subcategory": "Rideshare"
+},
+"description": "Uber Trip",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t065",
+"accountId": "A123",
+"postedAt": "2025-12-10T08:02:00Z",
+"direction": "debit",
+"amount": 11.99,
+"signedAmount": -11.99,
+"merchant": {
+"name": "Spotify",
+"category": "Subscriptions",
+"subcategory": "Music"
+},
+"description": "Spotify Premium",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t066",
+"accountId": "A123",
+"postedAt": "2025-12-10T09:30:00Z",
+"direction": "debit",
+"amount": 18.75,
+"signedAmount": -18.75,
+"merchant": {
+"name": "MALVERN BUTTERY",
+"category": "Food",
+"subcategory": "Bakery"
+},
+"description": "MALVERN BUTTERY",
+"isPending": true,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t067",
+"accountId": "A123",
+"postedAt": "2025-12-11T09:05:00Z",
+"direction": "debit",
+"amount": 79.99,
+"signedAmount": -79.99,
+"merchant": {
+"name": "Verizon Fios",
+"category": "Utilities",
+"subcategory": "Internet"
+},
+"description": "Verizon Fios Internet",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t068",
+"accountId": "A123",
+"postedAt": "2025-12-12T09:00:00Z",
+"direction": "credit",
+"amount": 3352.9,
+"signedAmount": 3352.9,
+"merchant": {
+"name": "Payroll",
+"category": "Income",
+"subcategory": "Salary"
+},
+"description": "Payroll Deposit",
+"isPending": false,
+"paymentRail": "ACH",
+"cardLast4": null
+},
+{
+"id": "t069",
+"accountId": "A123",
+"postedAt": "2025-12-12T19:10:00Z",
+"direction": "debit",
+"amount": 15.49,
+"signedAmount": -15.49,
+"merchant": {
+"name": "Netflix",
+"category": "Subscriptions",
+"subcategory": "Streaming"
+},
+"description": "Netflix.com",
+"isPending": false,
+"paymentRail": "Card",
+"cardLast4": "4242"
+},
+{
+"id": "t070",
+"accountId": "A123",
+"postedAt": "2025-12-14T10:30:00Z",
+"direction": "debit",
+"amount": 80.0,
+"signedAmount": -80.0,
+"merchant": {
+"name": "ATM Withdrawal",
+"category": "Cash",
+"subcategory": "ATM"
+},
+"description": "ATM Cash Withdrawal",
+"isPending": false,
+"paymentRail": "ATM",
+"cardLast4": null
+}
+]
