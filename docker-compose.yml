@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+  api:
+    build: .
+    container_name: banking_api
+    ports:
+      - "8000:8000"
+    environment:
+      - TOOL_BASE_URL=http://api:8000
+      - OLLAMA_URL=http://ollama:11434/v1/chat/completions
+      - OLLAMA_MODEL=llama3.2:latest
+    depends_on:
+      - ollama
+    volumes:
+      # Option: mount data as volume for easy updates without rebuild
+      - ./data:/app/data:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  ollama_data:
