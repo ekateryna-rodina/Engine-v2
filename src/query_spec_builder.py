@@ -1,8 +1,8 @@
-import os
 import re
-from typing import List, Optional
+from typing import Optional, cast
+
+from src.config import OLLAMA_MODEL, OLLAMA_URL
 from src.llm import query_spec_call_llm
-from src.orchestrator import OLLAMA_MODEL, OLLAMA_URL
 from src.schemas import ConversationContext, QuerySpec, TimeRange
 from src.prompts import QUERY_SPEC_SYSTEM_PROMPT
 
@@ -12,12 +12,13 @@ async def compile_queryspec(message: str, context: Optional[ConversationContext]
     try:
         llm_response = await query_spec_call_llm(QUERY_SPEC_SYSTEM_PROMPT, message)
         return llm_response
-    except Exception:
+    except Exception as e:
+       print(f"LLM query spec failed: {e}, falling back to rules-based")
        return _compile_rules(message, context)
 
-def _format_input(message: str, context: Optional[ConversationContext]) -> str:
-    selected = context.selectedTransactionId if context else None
-    return f"message: {message}\nselectedTransactionId: {selected}"
+# def _format_input(message: str, context: Optional[ConversationContext]) -> str:
+#     selected = context.selectedTransactionId if context else None
+#     return f"message: {message}\nselectedTransactionId: {selected}"
 
 
 def _compile_rules(message: str, context: Optional[ConversationContext]) -> QuerySpec:
@@ -96,7 +97,8 @@ def _parse_time_range(text: str) -> Optional[TimeRange]:
         "year": "years", "years": "years",
     }[unit_word]
 
-    return TimeRange(mode="relative", last=n, unit=unit)
+    from src.schemas import TimeUnit
+    return TimeRange(mode="relative", last=n, unit=cast(TimeUnit, unit))
 
 
 def _parse_limit(text: str) -> Optional[int]:

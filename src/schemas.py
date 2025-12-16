@@ -1,8 +1,6 @@
-from __future__ import annotations
-
 from datetime import datetime
 from typing import Any, Dict, List, Literal, Optional, Union
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 # =========================
 # Tool data schemas
@@ -52,30 +50,52 @@ class CategoryTotal(BaseModel):
 
 Intent = Literal[
     "top_spending_ytd",
-    "transactions_last_n_days",
+    "transactions_list",
     "recurring_payments",
     "unrecognized_transaction",
 ]
 
-Preset = Literal["ytd", "last_n_days", "custom"]
+
+TimeMode = Literal["preset", "relative", "custom"]
+TimePreset = Literal["ytd", "last_month"]
+TimeUnit = Literal["days", "weeks", "months", "years"]
 
 class TimeRange(BaseModel):
-    preset: Preset = "last_n_days"
-    # used when preset="last_n_days"
-    n_days: Optional[int] = None
-    # used when preset="custom"
+    mode: TimeMode = "relative"
+
+    # preset
+    preset: Optional[TimePreset] = None
+
+    # relative
+    last: Optional[int] = None
+    unit: Optional[TimeUnit] = None
+
+    # custom
     start: Optional[str] = None  # YYYY-MM-DD
     end: Optional[str] = None    # YYYY-MM-DD
 
+    @model_validator(mode="after")
+    def _check(self):
+        if self.mode == "preset":
+            if self.preset is None:
+                raise ValueError("preset is required when mode='preset'")
+        elif self.mode == "relative":
+            if self.last is None or self.unit is None:
+                raise ValueError("last and unit are required when mode='relative'")
+        elif self.mode == "custom":
+            if not self.start or not self.end:
+                raise ValueError("start and end are required when mode='custom'")
+        return self
+
 
 class QuerySpec(BaseModel):
-    is_banking: Optional[bool] = None
+    is_banking_domain: Optional[bool] = None
     intent: Intent
     time_range: TimeRange = Field(default_factory=TimeRange)
     params: Dict[str, Any] = Field(default_factory=dict)
     # examples:
     # top_spending_ytd: {"top_k": 5}
-    # transactions_last_n_days: {"n_days": 30}
+    # transactions_list: {"n_days": 30}
     # unrecognized_transaction: {"transaction_id": "t011"} or {}
     # recurring_payments: {} (or {"min_occurrences": 3})
 
@@ -131,9 +151,11 @@ class UIForm(BaseModel):
     actions: List[Dict[str, Any]]  # e.g. [{"type":"submit","label":"Start dispute"}]
 
 
+UIComponent = Union[UITable, UIChart, UIForm]
+
 class UISpec(BaseModel):
-    messages: List[UIMessage] = Field(default_factory=list)
-    components: List[Union[UITable, UIChart, UIForm]] = Field(default_factory=list)
+    messages: list[UIMessage] = Field(default_factory=list)  # type: ignore[assignment]
+    components: list[UIComponent] = Field(default_factory=list)  # type: ignore[assignment]
 
 
 class ChatResponse(BaseModel):
