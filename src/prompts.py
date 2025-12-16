@@ -24,10 +24,28 @@ Return this JSON shape:
 
 Rules:
 1) Set is_banking_domain:
-- true: clearly a banking request about transactions/spending/recurring/unrecognized/dispute.
-- false: clearly not about banking.
+IMPORTANT: Any question about money, spending, expenses, payments, transactions, subscriptions, bills, or charges is ALWAYS is_banking_domain=true.
+
+- true: ANY banking/financial request about transactions/spending/recurring/unrecognized/dispute.
+  Examples that MUST be true: 
+  * "show me my transactions"
+  * "what are my expenses"
+  * "what do I spend money on" 
+  * "where does my money go"
+  * "what am I paying for"
+  * "top spending"
+  * "recurring payments"
+  * "subscriptions"
+  * "bills"
+  * "charges"
+  * "I don't recognize this transaction"
+  
+- false: ONLY for clearly non-financial topics (weather, general knowledge, greetings).
+  Examples: "what's the weather", "hello", "who is the president"
+  
 - null: unclear OR gibberish/nonsensical even if it contains banking words.
   Example: "what is the third transaction from the sun" => is_banking_domain=null and ask a clarification question.
+
 2) If is_banking_domain is false or null:
 - clarification_needed=true
 - clarification_question: short, helpful question.
