@@ -467,16 +467,122 @@ API response
 4. User does not recognize the transaction
 
 API request
-curl -s http://localhost:8000/chat -X POST -H "Content-Type: application/json" \
-  -d '{"accountId":"A123","message":"what is this transaction t007?"}'
+curl -s http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "accountId": "A123",
+    "message": "I don’t recognize this transaction",
+    "context": { "selectedTransactionId": "t016" }
+  }'
 _________________________________
 
 LLM response
-'{\n  "is_banking_domain": false,\n  "clarification_needed": true,\n  "clarification_question": "What type transaction t007",\n  "confidence": 0.0,\n  "query": {\n    "intent": "transactions_list",\n    "time_range": null,\n    "params": {\n      "limit": 10\n    }\n  }\n}'
+'{\n  "is_banking_domain": true,\n  "clarification_needed": false,\n  "clarification_question": null,\n  "confidence": 0.0,\n  "query": {\n    "intent": "unrecognized_transaction",\n    "time_range": {\n      "mode": null,\n      "preset": null,\n      "last": null,\n      "unit": null,\n      "start": null,\n      "end": null\n    },\n    "params": {\n      "transaction_id": null\n    }\n  }\n}'
 
 ___________________________________
 
-bug - does not recognize intent correctly - better prompt engineering
+{
+  "query": {
+    "is_banking_domain": true,
+    "intent": "unrecognized_transaction",
+    "time_range": null,
+    "params": {
+      "transaction_id": "t016"
+    }
+  },
+  "ui": {
+    "messages": [
+      {
+        "type": "text",
+        "content": "I found this transaction:\n\n**Uber** (Transport / Rideshare)\n- **Amount:** $18.60 (debit)\n- **Date:** 2025-07-27\n- **Status:** POSTED\n- **Method:** Card (•••• 4242)\n\nIf you don’t recognize it, you can start a dispute below (a team member will review)."
+      }
+    ],
+    "components": [
+      {
+        "type": "card",
+        "title": "Transaction details",
+        "items": [
+          { "label": "Transaction ID", "value": "t016" },
+          { "label": "Merchant", "value": "Uber (Transport / Rideshare)" },
+          { "label": "Amount", "value": "$18.60", "badge": "Debit" },
+          { "label": "Date", "value": "2025-07-27" },
+          { "label": "Status", "value": "POSTED" },
+          { "label": "Payment method", "value": "Card •••• 4242" }
+        ]
+      },
+      {
+        "type": "form",
+        "formId": "dispute_transaction_v1",
+        "title": "Report an unrecognized transaction",
+        "description": "Tell us what looks wrong. We’ll review and follow up.",
+        "fields": [
+          {
+            "name": "transactionId",
+            "label": "Transaction ID",
+            "type": "text",
+            "value": "t016",
+            "required": true,
+            "readOnly": true
+          },
+          {
+            "name": "merchant",
+            "label": "Merchant",
+            "type": "text",
+            "value": "Uber",
+            "required": true,
+            "readOnly": true
+          },
+          {
+            "name": "date",
+            "label": "Date",
+            "type": "date",
+            "value": "2025-07-27",
+            "required": true,
+            "readOnly": true
+          },
+          {
+            "name": "amount",
+            "label": "Amount",
+            "type": "money",
+            "currency": "USD",
+            "value": "18.60",
+            "displayValue": "$18.60",
+            "required": true,
+            "readOnly": true
+          },
+          {
+            "name": "reason",
+            "label": "What’s wrong?",
+            "type": "select",
+            "placeholder": "Choose one",
+            "options": [
+              { "label": "Not mine", "value": "not_mine" },
+              { "label": "Duplicate charge", "value": "duplicate" },
+              { "label": "Wrong amount", "value": "wrong_amount" }
+            ],
+            "required": true
+          },
+          {
+            "name": "notes",
+            "label": "Notes (optional)",
+            "type": "textarea",
+            "placeholder": "Anything else you want us to know?",
+            "value": "",
+            "required": false
+          }
+        ],
+        "actions": [
+          {
+            "type": "submit",
+            "label": "Start dispute",
+            "style": "primary"
+          }
+        ]
+      }
+    ]
+  }
+}
+
 
 =================================
 
@@ -490,8 +596,7 @@ curl -s http://localhost:8000/chat -X POST -H "Content-Type: application/json" \
 __________________
 
 LLM response:
---fix - it messed up intent - undecognized_subscriptiopn (?) instead of recurring_payments - and still working!
-{\n  "is_banking_domain": false,\n  "clarification_needed": true,\n  "clarification_question": "What type of subscription are you referring to?",\n  "confidence": 0.0,\n  "query": {\n    "intent": "unrecognized_subscription",\n    "time_range": {\n      "mode": "relative",\n      "unit": null\n    },\n    "params": {}\n  }\n}
+'{\n  "is_banking_domain": true,\n  "clarification_needed": false,\n  "clarification_question": null,\n  "confidence": 0.0,\n  "query": {\n    "intent": "recurring_payments",\n    "time_range": {\n      "mode": "relative",\n      "preset": null,\n      "last": null,\n      "unit": null,\n      "start": null,\n      "end": null\n    },\n    "params": {}\n  }\n}'
 
 API response:
 {
