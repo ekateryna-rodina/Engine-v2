@@ -41,12 +41,13 @@ async def query_spec_call_llm(system_prompt: str, user_message: str) -> QuerySpe
             # Merge is_banking_domain from top level
             query_data["is_banking_domain"] = response_data.get("is_banking_domain")
             
-            # Fix TimeRange if mode=relative but last/unit are missing
+            # Fix TimeRange - must update query_data dict directly
             time_range = query_data.get("time_range", {})
             if time_range.get("mode") == "relative" and (not time_range.get("last") or not time_range.get("unit")):
                 # Set defaults for relative mode
                 time_range["last"] = 180
                 time_range["unit"] = "days"
+                query_data["time_range"] = time_range  # Update the dict
             
             # Fix params if it's a string instead of dict
             if isinstance(query_data.get("params"), str):

@@ -42,7 +42,12 @@ Rules:
 Time rules:
 - "this year" / "ytd" => mode="preset", preset="ytd"
 - "last month" => mode="preset", preset="last_month"
-- "last N days/weeks/months/years" => mode="relative", last=N, unit=...
+- "last N days/weeks/months/years" => mode="relative", last=N, unit="days"|"weeks"|"months"|"years"
+  Examples:
+  - "last 2 weeks" => mode="relative", last=2, unit="weeks"
+  - "last 30 days" => mode="relative", last=30, unit="days"
+  - "last 3 months" => mode="relative", last=3, unit="months"
+  - "past year" => mode="relative", last=1, unit="years"
 
 COUNT vs WINDOW (important):
 - If the user asks for a COUNT ("most recent 10", "last 10 transactions") and DOES NOT mention a time window:
