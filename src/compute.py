@@ -38,21 +38,27 @@ def _month_bounds(d: date) -> Tuple[date, date]:
         end = start.replace(month=start.month + 1)
     return start, end
 
-def resolve_time_range(tr: TimeRange | None) -> Tuple[date, date]:
+def resolve_time_range(tr: TimeRange | None, limit_only: bool = False) -> Tuple[date, date]:
     """
     Returns (start_date, end_date_exclusive).
-    If tr is None, returns a default range (last 30 days).
+    If tr is None and limit_only is True, returns a very wide range (5 years) to get all transactions.
+    If tr is None and limit_only is False, returns a default range (last 30 days).
     """
     today = date.today()
     end = today + timedelta(days=1)
     
     if tr is None:
+        if limit_only:
+            # For count-based queries, fetch a wide range to ensure we get enough transactions
+            return today - timedelta(days=365*5), end
         # Default: last 30 days
         return today - timedelta(days=30), end
 
     if tr.mode == "preset":
         if tr.preset == "ytd":
             return date(today.year, 1, 1), end
+        if tr.preset == "this_month":
+            return _month_bounds(today)
         if tr.preset == "last_month":
             first_this_month, _ = _month_bounds(today)
             last_day_prev_month = first_this_month - timedelta(days=1)
@@ -136,10 +142,16 @@ def _describe_range(tr: TimeRange | None) -> str:
         return "recent history"
     if tr.mode == "preset" and tr.preset == "ytd":
         return "year-to-date"
+    if tr.mode == "preset" and tr.preset == "this_month":
+        return "this month"
     if tr.mode == "preset" and tr.preset == "last_month":
         return "last month"
     if tr.mode == "relative" and tr.last and tr.unit:
-        return f"the last {tr.last} {tr.unit}"
+        # Handle singular vs plural for better grammar
+        unit = tr.unit
+        if tr.last == 1 and unit.endswith('s'):
+            unit = unit[:-1]  # Remove trailing 's' for singular (weeks -> week, days -> day)
+        return f"the last {tr.last} {unit}"
     if tr.mode == "custom" and tr.start and tr.end:
         return f"{tr.start} to {tr.end}"
     return "recent history"
@@ -147,11 +159,22 @@ def _describe_range(tr: TimeRange | None) -> str:
 
 def handle_transactions_list(q: QuerySpec, txs: List[Transaction]) -> UISpec:
     limit = int(q.params.get("limit", 50))
-    shown = min(limit, len(txs))
-    label = _describe_range(q.time_range)
+    limit_only = q.params.get("limit_only", False)
+    
+    # Sort and limit transactions first to get the actual count
+    txs_sorted = sorted(txs, key=lambda t: t.postedAt, reverse=True)[:limit]
+    shown = len(txs_sorted)
+    
+    if limit_only:
+        # For count-based queries, don't mention time ranges
+        message = f"Here are your **{shown} most recent transactions**."
+    else:
+        # For time-based queries, mention the time range
+        label = _describe_range(q.time_range)
+        message = f"Here are your transactions from **{label}** (showing **{shown}**)."
 
     ui = UISpec(
-        messages=[UIMessage(content=f"Here are your transactions from **{label}** (showing **{shown}**).")],
+        messages=[UIMessage(content=message)],
         components=[table_transactions("Transactions", txs, limit=limit)],
     )
     return ui

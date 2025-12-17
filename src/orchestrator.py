@@ -77,7 +77,8 @@ async def orchestrate_chat(req: ChatRequest) -> ChatResponse:
         return ChatResponse(query=q, ui=ui)
 
     # 2) For the other intents: pull transactions for a single resolved range
-    start_d, end_d = resolve_time_range(q.time_range)
+    limit_only = q.params.get("limit_only", False)
+    start_d, end_d = resolve_time_range(q.time_range, limit_only=limit_only)
     txs = await tool_get_transactions(req.accountId, start_d.isoformat(), end_d.isoformat())
 
     if q.intent == "transactions_list":

@@ -12,7 +12,7 @@ Output ONLY valid JSON. No markdown, no code blocks, no extra text.
     "intent": "top_spending_ytd" | "transactions_list" | "recurring_payments" | "unrecognized_transaction",
     "time_range": {
       "mode": "preset" | "relative" | "custom",
-      "preset": "ytd" | "last_month" | null,
+      "preset": "ytd" | "this_month" | "last_month" | null,
       "last": null,
       "unit": null,
       "start": null,
@@ -86,8 +86,34 @@ For transactions_list:
 - time_range: based on user request or mode="relative", last=30, unit="days"
 - params.limit=50 or user-specified number
 
-Time rules (for transactions_list, recurring_payments):
+COUNT vs WINDOW (CRITICAL - read carefully):
+
+1. If the user asks for a NUMBER OF TRANSACTIONS (e.g., "10 transactions", "recent 10", "last 50 transactions", "my 20 transactions"):
+   => intent="transactions_list"
+   => time_range=null (MUST be null)
+   => params.limit=<the number they asked for>
+   => params.limit_only=true
+   
+   Examples:
+   - "What are my recent 10 transactions?" => time_range=null, params.limit=10, params.limit_only=true
+   - "Show me my last 50 transactions" => time_range=null, params.limit=50, params.limit_only=true
+   - "Give me 20 transactions" => time_range=null, params.limit=20, params.limit_only=true
+   - "I need 15 transactions" => time_range=null, params.limit=15, params.limit_only=true
+
+2. If the user mentions a TIME PERIOD (e.g., "last 30 days", "last 3 months", "this week"):
+   => intent="transactions_list"
+   => set time_range according to the period (see Time rules below)
+   => params.limit=50 (or user-specified if they also mention a count)
+   => DO NOT set params.limit_only
+
+   Examples:
+   - "What are my transactions for last 30 days?" => time_range: mode="relative", last=30, unit="days"
+   - "Show transactions from last week" => time_range: mode="relative", last=1, unit="weeks"
+   - "Show my transactions year to date" => time_range: mode="preset", preset="ytd"
+
+Time rules (for transactions_list when TIME PERIOD is mentioned):
 - "this year" / "ytd" => mode="preset", preset="ytd"
+- "this month" => mode="preset", preset="this_month"
 - "last month" => mode="preset", preset="last_month"
 - "last N days/weeks/months/years" => mode="relative", last=N, unit="days"|"weeks"|"months"|"years"
   Examples:
@@ -95,15 +121,6 @@ Time rules (for transactions_list, recurring_payments):
   - "last 30 days" => mode="relative", last=30, unit="days"
   - "last 3 months" => mode="relative", last=3, unit="months"
   - "past year" => mode="relative", last=1, unit="years"
-
-COUNT vs WINDOW (important):
-- If the user asks for a COUNT ("most recent 10", "last 10 transactions") and DOES NOT mention a time window:
-  => intent="transactions_list", params.limit=N
-  => set time_range to a fetch hint: mode="relative", last=180, unit="days" (so we can fetch enough to return N)
-- If the user mentions a TIME WINDOW ("last 30 days", "last 3 months", "last month"):
-  => intent="transactions_list"
-  => set time_range to that window
-  => params.limit is optional; include it only if the user asked for a specific number.
 
 Defaults (when is_banking_domain=true and user did not specify):
 - transactions_list => mode="relative", last=30, unit="days", params.limit=50

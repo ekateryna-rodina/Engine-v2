@@ -23,6 +23,48 @@ async def compile_queryspec(message: str, context: Optional[ConversationContext]
                 params=updated_params
             )
         
+        # Post-processing: Essential fixes only
+        message_lower = message.lower()
+        
+        # Fix 1: Year to date queries should show all transactions
+        if ("year to date" in message_lower or "ytd" in message_lower or "this year" in message_lower):
+            updated_params = {k: v for k, v in llm_response.params.items() if k not in ["limit_only", "limit"]}
+            updated_params["limit"] = 1000
+            llm_response = QuerySpec(
+                is_banking_domain=llm_response.is_banking_domain,
+                intent=llm_response.intent,
+                time_range=TimeRange(mode="preset", preset="ytd"),
+                params=updated_params
+            )
+        
+        # Fix 2: Ensure count-based queries have time_range=null and include the limit
+        # But first check if we need to CLEAR limit_only if there's actually a time range
+        has_time_pattern = _parse_time_range(message_lower) is not None
+        has_count_pattern = _parse_limit(message_lower) is not None
+        
+        if has_time_pattern and llm_response.params.get("limit_only"):
+            # LLM incorrectly set limit_only for a time-based query - fix it
+            updated_params = {k: v for k, v in llm_response.params.items() if k != "limit_only"}
+            llm_response = QuerySpec(
+                is_banking_domain=llm_response.is_banking_domain,
+                intent=llm_response.intent,
+                time_range=llm_response.time_range if llm_response.time_range else _parse_time_range(message_lower),
+                params=updated_params
+            )
+        elif llm_response.params.get("limit_only") or (has_count_pattern and not has_time_pattern):
+            # This is a count-based query
+            updated_params = llm_response.params.copy()
+            updated_params["limit_only"] = True
+            if "limit" not in updated_params or updated_params["limit"] is None:
+                parsed_limit = _parse_limit(message_lower)
+                updated_params["limit"] = parsed_limit if parsed_limit else 50
+            llm_response = QuerySpec(
+                is_banking_domain=llm_response.is_banking_domain,
+                intent=llm_response.intent,
+                time_range=None,
+                params=updated_params
+            )
+        
         return llm_response
     except Exception as e:
        print(f"LLM query spec failed: {e}, falling back to rules-based")
@@ -65,13 +107,25 @@ def _compile_rules(message: str, context: Optional[ConversationContext]) -> Quer
 
     # transactions list: if they mention transactions at all
     if "transaction" in text or "transactions" in text:
-        tr = _parse_time_range(text) or _default_time("transactions_list")
-        limit = _parse_limit(text) or 50
+        tr = _parse_time_range(text)
+        parsed_limit = _parse_limit(text)
+        limit = parsed_limit if parsed_limit is not None else 50
+        
+        # If user is asking for a specific count and no time range mentioned,
+        # don't set a time range (limit-only mode)
+        params = {"limit": limit, "include_pending": True}
+        if parsed_limit is not None and tr is None:
+            params["limit_only"] = True
+            # Leave tr as None for count-based queries
+        else:
+            # Only set default time range if user didn't specify a count-only query
+            tr = tr or _default_time("transactions_list")
+        
         return QuerySpec(
             is_banking_domain=True,
             intent="transactions_list",
             time_range=tr,
-            params={"limit": limit, "include_pending": True},
+            params=params,
         )
 
     # safe fallback: show last 30 days transactions
@@ -94,8 +148,14 @@ def _default_time(intent: str) -> TimeRange:
 def _parse_time_range(text: str) -> Optional[TimeRange]:
     if "this year" in text or "ytd" in text or "year to date" in text:
         return TimeRange(mode="preset", preset="ytd")
+    if "this month" in text:
+        return TimeRange(mode="preset", preset="this_month")
     if "last month" in text:
         return TimeRange(mode="preset", preset="last_month")
+    # Handle "last week" without a number
+    if "last week" in text:
+        from src.schemas import TimeUnit
+        return TimeRange(mode="relative", last=1, unit=cast(TimeUnit, "weeks"))
 
     m = re.search(r"\b(last|past|previous)\s+(\d+)\s+(day|days|week|weeks|month|months|year|years)\b", text)
     if not m:
@@ -115,9 +175,16 @@ def _parse_time_range(text: str) -> Optional[TimeRange]:
 
 
 def _parse_limit(text: str) -> Optional[int]:
-    # "last 10 transactions" / "recent 10 transactions"
-    m = re.search(r"\b(last|recent)\s+(\d+)\s+transactions?\b", text)
-    return int(m.group(2)) if m else None
+    # Patterns: "last 10 transactions", "give me 20 transactions", "I need 15 transactions"
+    # Try pattern with verb/adjective first: "(give me|show|last|recent) N transactions"
+    m = re.search(r"\b(give\s+me|show\s+me|show|last|recent|my|need|want)\s+(\d+)\s+transactions?\b", text)
+    if m:
+        return int(m.group(2))
+    # Also try simple "N transactions" pattern
+    m = re.search(r"\b(\d+)\s+transactions?\b", text)
+    if m:
+        return int(m.group(1))
+    return None
 
 
 def _extract_tx_id(text: str) -> Optional[str]:

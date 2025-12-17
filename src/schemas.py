@@ -57,7 +57,7 @@ Intent = Literal[
 
 
 TimeMode = Literal["preset", "relative", "custom"]
-TimePreset = Literal["ytd", "last_month"]
+TimePreset = Literal["ytd", "last_month", "this_month"]
 TimeUnit = Literal["days", "weeks", "months", "years"]
 
 class TimeRange(BaseModel):
