@@ -28,7 +28,7 @@ echo ""
 
 # Step 3: Start containers
 echo "🚀 Starting containers..."
-ssh $SERVER "cd $APP_DIR && docker compose up -d"
+ssh $SERVER "cd $APP_DIR && docker compose build --no-cache api && docker compose up -d"
 echo "✅ Containers started"
 echo ""
 
