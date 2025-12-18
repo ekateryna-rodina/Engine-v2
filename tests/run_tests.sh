@@ -39,7 +39,7 @@ run_test() {
         return 1
     fi
     
-    if echo "$response" | python3 -c "import sys, json; d=json.load(sys.stdin); print('Intent:', d['query']['intent']); print('Time Range:', d['query'].get('time_range', {}).get('preset') or d['query'].get('time_range', {}).get('mode')); print('Message:', d['ui']['messages'][0]['content'][:80]); print('Components:', len(d['ui'].get('components', []))); print('Chart count:', len([c for c in d['ui'].get('components', []) if c.get('type')=='chart']))" 2>&1; then
+    if echo "$response" | python3 -c "import sys, json; d=json.load(sys.stdin); tr=d['query'].get('time_range'); print('Intent:', d['query']['intent']); print('Time Range:', (tr.get('preset') if tr else None) or (tr.get('mode') if tr else None) or 'None'); print('Message:', d['ui']['messages'][0]['content'][:80]); print('Components:', len(d['ui'].get('components', []))); print('Chart count:', len([c for c in d['ui'].get('components', []) if c.get('type')=='chart']))" 2>&1; then
         echo "✅ PASSED"
     else
         echo "❌ FAILED - Parse error"
