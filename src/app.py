@@ -8,7 +8,12 @@ from src.config import OLLAMA_MODEL, OLLAMA_URL
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Warmup the LLM model on startup to keep it in memory"""
-    print(f"[WARMUP] Starting model warmup for {OLLAMA_MODEL}...")
+    print("=" * 60)
+    print("[WARMUP] LIFESPAN STARTED - Beginning model warmup")
+    print(f"[WARMUP] Model: {OLLAMA_MODEL}")
+    print(f"[WARMUP] URL: {OLLAMA_URL}")
+    print("=" * 60)
+    
     try:
         async with httpx.AsyncClient(timeout=120) as client:
             payload = {
@@ -18,12 +23,17 @@ async def lifespan(app: FastAPI):
                     {"role": "user", "content": "Hello"}
                 ],
             }
+            print(f"[WARMUP] Sending request to Ollama...")
             r = await client.post(OLLAMA_URL, json=payload)
             r.raise_for_status()
-            print(f"[WARMUP] Model {OLLAMA_MODEL} loaded successfully and ready!")
+            print("=" * 60)
+            print(f"[WARMUP] ✅ SUCCESS - Model {OLLAMA_MODEL} is loaded and ready!")
+            print("=" * 60)
     except Exception as e:
-        print(f"[WARMUP] Warning: Model warmup failed: {e}")
-        print(f"[WARMUP] Model will be loaded on first request")
+        print("=" * 60)
+        print(f"[WARMUP] ❌ FAILED - Model warmup error: {e}")
+        print(f"[WARMUP] Model will be loaded on first user request")
+        print("=" * 60)
     
     yield  # Application runs here
     
