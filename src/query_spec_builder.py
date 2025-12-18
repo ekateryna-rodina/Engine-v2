@@ -14,16 +14,21 @@ async def compile_queryspec(message: str, context: Optional[ConversationContext]
         llm_response = await query_spec_call_llm(QUERY_SPEC_SYSTEM_PROMPT, message)
         print(f"[QUERY_SPEC] LLM returned is_banking_domain={llm_response.is_banking_domain}, intent={llm_response.intent}")
         
-        # If intent is unrecognized_transaction and context has selectedTransactionId, inject it
-        if llm_response.intent == "unrecognized_transaction" and context and context.selectedTransactionId:
-            # Create new QuerySpec with updated params (Pydantic models are immutable)
-            updated_params: dict[str, Any] = {**llm_response.params, "transaction_id": context.selectedTransactionId}
-            llm_response = QuerySpec(
-                is_banking_domain=llm_response.is_banking_domain,
-                intent=llm_response.intent,
-                time_range=llm_response.time_range,
-                params=updated_params
-            )
+        # If intent is unrecognized_transaction, always extract transaction ID from message
+        # (Don't rely on context - frontend may not send it properly)
+        if llm_response.intent == "unrecognized_transaction":
+            tx_id = llm_response.params.get("transaction_id")
+            # If LLM didn't extract it, try regex extraction as fallback
+            if not tx_id:
+                tx_id = _extract_tx_id(message.lower())
+                if tx_id:
+                    updated_params: dict[str, Any] = {**llm_response.params, "transaction_id": tx_id}
+                    llm_response = QuerySpec(
+                        is_banking_domain=llm_response.is_banking_domain,
+                        intent=llm_response.intent,
+                        time_range=llm_response.time_range,
+                        params=updated_params
+                    )
         
         # Post-processing: Essential fixes only
         message_lower = message.lower()
@@ -135,7 +140,8 @@ def _compile_rules(message: str, context: Optional[ConversationContext]) -> Quer
         or "unrecognized" in text
         or ("what is this" in text and ("charge" in text or "transaction" in text))
     ):
-        tx_id = _extract_tx_id(text) or (context.selectedTransactionId if context else None)
+        # Extract transaction ID directly from message (don't rely on context)
+        tx_id = _extract_tx_id(text)
         return QuerySpec(
             is_banking_domain=True,
             intent="unrecognized_transaction",

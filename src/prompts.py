@@ -81,7 +81,10 @@ Intent-specific rules:
 
 For unrecognized_transaction:
 - time_range=null (not needed for single transaction dispute)
-- params.transaction_id=null (backend will inject it)
+- params.transaction_id: EXTRACT from message if present (format: t### like t070, t123)
+  Examples: "I don't recognize t070" → transaction_id="t070"
+            "What is transaction t123" → transaction_id="t123"
+  If no transaction ID in message, set to null. Could be any id.
 
 For recurring_payments (subscriptions, recurring payments, monthly charges):
 - IMPORTANT: "monthly charges" means RECURRING monthly charges, NOT charges from last month
