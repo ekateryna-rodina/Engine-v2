@@ -112,28 +112,37 @@ test_query "Last week" "show me last week transactions" "transactions_list" ""
 test_query "Year to date" "transactions year to date" "top_spending_ytd" "Total spending"
 test_query "Last 30 days" "transactions from last 30 days" "transactions_list" "\*\*last 30 days\*\*"
 
-# 3. TOP SPENDING QUERIES
+# 3. SPENDING QUERIES - TRANSACTION LIST (without "top")
 echo "=========================================="
-echo "3. TOP SPENDING QUERIES"
+echo "3. SPENDING QUERIES - TRANSACTION LIST"
 echo "=========================================="
+test_query "My spending this month" "Show me my spending this month" "transactions_list" "transactions"
+test_query "My spending last month" "Show me my spending last month" "transactions_list" "transactions"
+test_query "What did I spend" "What did I spend this month?" "transactions_list" "transactions"
+
+# 4. TOP SPENDING QUERIES - AGGREGATED (with "top", "biggest", "most")
+echo "=========================================="
+echo "4. TOP SPENDING QUERIES - AGGREGATED"
+echo "=========================================="
+test_query "Top spending this month" "Show me my top spending this month" "top_spending_ytd" "Total spending"
 test_query "Top spendings" "what are my top spendings?" "top_spending_ytd" "Total spending"
 test_query "Where money goes" "where does my money go?" "top_spending_ytd" "Total spending"
 test_query "Spending categories" "show me my spending categories" "top_spending_ytd" ""
 test_query "What I spend most on" "what do I spend the most on?" "top_spending_ytd" "Total spending"
 test_query "Biggest spending" "what's my biggest spending?" "top_spending_ytd" "Total spending"
 
-# 4. SUBSCRIPTION QUERIES
+# 5. SUBSCRIPTION QUERIES
 echo "=========================================="
-echo "4. SUBSCRIPTION QUERIES"
+echo "5. SUBSCRIPTION QUERIES"
 echo "=========================================="
 test_query "Subscriptions" "what are my subscriptions?" "recurring_payments" "recurring payments"
 test_query "Recurring payments" "show me my recurring payments" "recurring_payments" "recurring payments"
 test_query "Monthly charges" "monthly charges" "recurring_payments" "recurring payments"
 test_query "What am I paying monthly" "what am I paying for every month?" "recurring_payments" ""
 
-# 5. UNRECOGNIZED TRANSACTION
+# 6. UNRECOGNIZED TRANSACTION
 echo "=========================================="
-echo "5. UNRECOGNIZED TRANSACTION"
+echo "6. UNRECOGNIZED TRANSACTION"
 echo "=========================================="
 echo "TEST: Unrecognized transaction (two-step process)"
 echo "Step 1: Get transaction list"
@@ -158,9 +167,9 @@ else
 fi
 echo ""
 
-# 6. EDGE CASES
+# 7. EDGE CASES
 echo "=========================================="
-echo "6. EDGE CASES & VARIATIONS"
+echo "7. EDGE CASES & VARIATIONS"
 echo "=========================================="
 test_query "This year" "show me transactions this year" "transactions_list" "year-to-date"
 test_query "YTD" "transactions ytd" "top_spending_ytd" "Total spending"

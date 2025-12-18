@@ -33,6 +33,17 @@ async def compile_queryspec(message: str, context: Optional[ConversationContext]
         # Post-processing: Essential fixes only
         message_lower = message.lower()
         
+        # Fix -1: Force is_banking_domain=true if intent is a banking intent
+        banking_intents = ["transactions_list", "top_spending_ytd", "recurring_payments", "unrecognized_transaction", "account_balance"]
+        if llm_response.intent in banking_intents and llm_response.is_banking_domain == False:
+            print(f"[FIX] Overriding is_banking_domain=False to True because intent={llm_response.intent}")
+            llm_response = QuerySpec(
+                is_banking_domain=True,  # Override to True
+                intent=llm_response.intent,
+                time_range=llm_response.time_range,
+                params=llm_response.params
+            )
+        
         # Fix 0: Balance queries - override LLM if it misclassifies
         is_balance_query = (
             ("balance" in message_lower and ("account" in message_lower or "checking" in message_lower or "savings" in message_lower)) or
