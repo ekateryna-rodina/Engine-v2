@@ -25,6 +25,7 @@ Output ONLY valid JSON. No markdown, no code blocks, no extra text.
 CRITICAL: is_banking_domain Classification Rules
 
 If the user's question contains ANY of these words, is_banking_domain MUST be true:
+- balance, account balance, checking balance, savings balance
 - money, spend, spending, spent, expense, expenses, cost
 - transaction, transactions, payment, payments, paid, pay
 - subscription, subscriptions, bill, bills, charge, charges
@@ -48,8 +49,9 @@ ONLY is_banking_domain=null for gibberish.
 
 Intent Mapping (EXACT phrases):
 
-1. If message contains "balance" OR "how much money" OR "account balance":
+1. If message contains "balance" OR "account balance" OR "checking balance" OR "how much money do i have":
    => intent="account_balance"
+   CRITICAL: "balance" always means account balance, NOT transaction list
    
 2. If message contains "recognize" OR "dispute" OR "unknown" with "transaction":
    => intent="unrecognized_transaction"

@@ -33,6 +33,20 @@ async def compile_queryspec(message: str, context: Optional[ConversationContext]
         # Post-processing: Essential fixes only
         message_lower = message.lower()
         
+        # Fix 0: Balance queries - override LLM if it misclassifies
+        is_balance_query = (
+            ("balance" in message_lower and ("account" in message_lower or "checking" in message_lower or "savings" in message_lower)) or
+            ("how much money" in message_lower and ("have" in message_lower or "do i" in message_lower))
+        )
+        if is_balance_query and llm_response.intent != "account_balance":
+            print(f"[QUERY_SPEC] Detected balance query - overriding intent to account_balance")
+            llm_response = QuerySpec(
+                is_banking_domain=True,
+                intent="account_balance",
+                time_range=None,
+                params={}
+            )
+        
         # Fix 1: Year to date queries should show all transactions
         if ("year to date" in message_lower or "ytd" in message_lower or "this year" in message_lower):
             updated_params = {k: v for k, v in llm_response.params.items() if k not in ["limit_only", "limit"]}
