@@ -10,7 +10,9 @@ async def compile_queryspec(message: str, context: Optional[ConversationContext]
     if not OLLAMA_MODEL or not OLLAMA_URL:
         raise ValueError("OLLAMA_MODEL and OLLAMA_URL must be set")
     try:
+        print(f"[QUERY_SPEC] Input message: '{message}'")
         llm_response = await query_spec_call_llm(QUERY_SPEC_SYSTEM_PROMPT, message)
+        print(f"[QUERY_SPEC] LLM returned is_banking_domain={llm_response.is_banking_domain}, intent={llm_response.intent}")
         
         # If intent is unrecognized_transaction and context has selectedTransactionId, inject it
         if llm_response.intent == "unrecognized_transaction" and context and context.selectedTransactionId:
@@ -94,14 +96,16 @@ async def compile_queryspec(message: str, context: Optional[ConversationContext]
                 params=updated_params
             )
         
+        print(f"[QUERY_SPEC] Final is_banking_domain={llm_response.is_banking_domain}")
         return llm_response
     except Exception as e:
-       print(f"LLM query spec failed: {e}, falling back to rules-based")
+       print(f"[QUERY_SPEC] LLM query spec failed: {e}, falling back to rules-based")
        return _compile_rules(message, context)
 
 
 def _compile_rules(message: str, context: Optional[ConversationContext]) -> QuerySpec:
     text = (message or "").lower().strip()
+    print(f"[RULES_FALLBACK] Processing: '{text}'")
 
     # ---- 0) Check for non-banking queries (greetings, general questions) ----
     # Common greetings and non-banking phrases
@@ -110,8 +114,10 @@ def _compile_rules(message: str, context: Optional[ConversationContext]) -> Quer
     banking_keywords = ["transaction", "spend", "payment", "money", "balance", "charge", "subscription", "bill"]
     is_greeting = any(greet in text for greet in greetings)
     has_banking = any(keyword in text for keyword in banking_keywords)
+    print(f"[RULES_FALLBACK] is_greeting={is_greeting}, has_banking={has_banking}")
     
     if is_greeting and not has_banking:
+        print(f"[RULES_FALLBACK] Detected as greeting -> is_banking_domain=False")
         return QuerySpec(
             is_banking_domain=False,
             intent="transactions_list",  # Default intent (won't be used)
