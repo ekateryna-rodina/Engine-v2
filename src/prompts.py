@@ -40,7 +40,9 @@ ALWAYS is_banking_domain=true for:
 - Where money goes
 
 ONLY is_banking_domain=false for non-financial topics:
-- Weather, sports, news, facts, greetings
+- Weather, sports, news, facts, general questions
+- Greetings: hello, hi, hey, good morning, thanks, thank you
+- IMPORTANT: If the message is ONLY a greeting with NO banking keywords, MUST be false
 
 ONLY is_banking_domain=null for gibberish.
 

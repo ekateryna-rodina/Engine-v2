@@ -81,9 +81,12 @@ async def compile_queryspec(message: str, context: Optional[ConversationContext]
             # This is a count-based query
             updated_params = llm_response.params.copy()
             updated_params["limit_only"] = True
-            if "limit" not in updated_params or updated_params["limit"] is None:
-                parsed_limit = _parse_limit(message_lower)
-                updated_params["limit"] = parsed_limit if parsed_limit else 50
+            # ALWAYS use the parsed limit from user message if available (override LLM)
+            parsed_limit = _parse_limit(message_lower)
+            if parsed_limit is not None:
+                updated_params["limit"] = parsed_limit
+            elif "limit" not in updated_params or updated_params["limit"] is None:
+                updated_params["limit"] = 50  # Default fallback
             llm_response = QuerySpec(
                 is_banking_domain=llm_response.is_banking_domain,
                 intent=llm_response.intent,
@@ -99,6 +102,22 @@ async def compile_queryspec(message: str, context: Optional[ConversationContext]
 
 def _compile_rules(message: str, context: Optional[ConversationContext]) -> QuerySpec:
     text = (message or "").lower().strip()
+
+    # ---- 0) Check for non-banking queries (greetings, general questions) ----
+    # Common greetings and non-banking phrases
+    greetings = ["hello", "hi", "hey", "good morning", "good afternoon", "good evening", "thanks", "thank you"]
+    # Check if message is ONLY a greeting with no banking keywords
+    banking_keywords = ["transaction", "spend", "payment", "money", "balance", "charge", "subscription", "bill"]
+    is_greeting = any(greet in text for greet in greetings)
+    has_banking = any(keyword in text for keyword in banking_keywords)
+    
+    if is_greeting and not has_banking:
+        return QuerySpec(
+            is_banking_domain=False,
+            intent="transactions_list",  # Default intent (won't be used)
+            time_range=None,
+            params={},
+        )
 
     # ---- 1) intent detection (only 4) ----
     if (
