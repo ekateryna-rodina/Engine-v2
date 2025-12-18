@@ -49,8 +49,9 @@ Intent Mapping (EXACT phrases):
 1. If message contains "recognize" OR "dispute" OR "unknown" with "transaction":
    => intent="unrecognized_transaction"
    
-2. If message contains "subscription" OR "recurring" OR "bill":
+2. If message contains "subscription" OR "recurring" OR "bill" OR "monthly charges" OR "monthly payments":
    => intent="recurring_payments"
+   => CRITICAL: Do NOT use time_range based on "monthly" - it means recurring patterns, not a time filter
    
 3. If message contains ANY of these patterns, use top_spending_ytd:
    - "top spending" OR "top spendings"
@@ -80,8 +81,9 @@ For unrecognized_transaction:
 - time_range=null (not needed for single transaction dispute)
 - params.transaction_id=null (backend will inject it)
 
-For recurring_payments:
-- time_range: mode="relative", last=3, unit="months"
+For recurring_payments (subscriptions, recurring payments, monthly charges):
+- IMPORTANT: "monthly charges" means RECURRING monthly charges, NOT charges from last month
+- time_range: mode="relative", last=3, unit="months" (analyze 3 months to find patterns)
 - params.min_occurrences=3
 
 For top_spending_ytd:
