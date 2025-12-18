@@ -40,10 +40,12 @@ async def lifespan(app: FastAPI):
     # Cleanup on shutdown (if needed)
     print("[SHUTDOWN] Application shutting down")
 
+print("[DEBUG] Creating FastAPI app with lifespan...")
 app = FastAPI(
     title="Orchestrator (QuerySpec -> tools -> compute -> UISpec)",
     lifespan=lifespan
 )
+print("[DEBUG] FastAPI app created successfully!")
 app.include_router(tools_router)
 app.include_router(chat_router)
 
