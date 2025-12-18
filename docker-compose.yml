@@ -14,7 +14,7 @@ services:
       - |
         /bin/ollama serve &
         sleep 5
-        ollama pull llama3.2:1b
+        ollama pull llama3.2:latest
         wait
 
   api:
@@ -25,7 +25,7 @@ services:
     environment:
       - TOOL_BASE_URL=http://api:8000
       - OLLAMA_URL=http://ollama:11434/v1/chat/completions
-      - OLLAMA_MODEL=llama3.2:1b
+      - OLLAMA_MODEL=llama3.2:latest
     depends_on:
       - ollama
     volumes:

@@ -123,7 +123,10 @@ def _compile_rules(message: str, context: Optional[ConversationContext]) -> Quer
             params={"min_occurrences": 3},
         )
 
-    if ("top" in text and ("spend" in text or "spending" in text)) and ("year" in text or "ytd" in text or "this year" in text):
+    # Top spending queries - match various patterns
+    if (("top" in text or "biggest" in text or "most" in text) and ("spend" in text or "spending" in text)) or \
+       ("where" in text and ("money" in text or "spend" in text)) or \
+       ("spending categor" in text):
         return QuerySpec(
             is_banking_domain=True,
             intent="top_spending_ytd",

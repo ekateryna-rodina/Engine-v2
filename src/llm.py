@@ -5,7 +5,7 @@ from src.config import OLLAMA_MODEL, OLLAMA_URL
 from src.schemas import QuerySpec
 
 async def query_spec_call_llm(system_prompt: str, user_message: str) -> QuerySpec:
-        async with httpx.AsyncClient(timeout=45) as client:
+        async with httpx.AsyncClient(timeout=120) as client:
             payload: dict[str, Any] = {
                 "model": OLLAMA_MODEL,
                 "stream": False,
