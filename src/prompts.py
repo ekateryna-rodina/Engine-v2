@@ -60,17 +60,19 @@ Intent Mapping (EXACT phrases):
    => intent="recurring_payments"
    => CRITICAL: Do NOT use time_range based on "monthly" - it means recurring patterns, not a time filter
    
-4. If message contains ANY of these patterns, use top_spending_ytd:
-   - "top spending" OR "top spendings"
+4. If message contains ANY of these patterns, use top_spending_ytd (aggregated by category):
+   - MUST have "top" keyword: "top spending" OR "top spendings"
    - "biggest spending" OR "most spending"
    - "where" with "money" or "spend" (e.g., "where does my money go")
    - "spending categories" OR "top categories"
-   - "spending this year" OR "spending ytd" OR "year to date"
+   - ONLY "spending this year" OR "spending ytd" with aggregation context
    - "what do I spend on" OR "what am I spending on"
    => intent="top_spending_ytd"
-   => time_range: mode="preset", preset="ytd"
+   => time_range: mode="preset", preset="ytd" (or this_month if they said "this month")
    
-5. Otherwise:
+   CRITICAL: "spending this month" WITHOUT "top" = transactions_list, NOT top_spending_ytd
+   
+5. Otherwise (including "my spending", "show spending", "spending this month" without "top"):
    => intent="transactions_list"
 
 2) If is_banking_domain is false or null:
