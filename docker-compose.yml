@@ -9,6 +9,13 @@ services:
     volumes:
       - ollama_data:/root/.ollama
     restart: unless-stopped
+    entrypoint: ["/bin/sh", "-c"]
+    command: 
+      - |
+        /bin/ollama serve &
+        sleep 5
+        ollama pull llama3.2:1b
+        wait
 
   api:
     build: .
@@ -18,7 +25,7 @@ services:
     environment:
       - TOOL_BASE_URL=http://api:8000
       - OLLAMA_URL=http://ollama:11434/v1/chat/completions
-      - OLLAMA_MODEL=llama3.2:latest
+      - OLLAMA_MODEL=llama3.2:1b
     depends_on:
       - ollama
     volumes:
