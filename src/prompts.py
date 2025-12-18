@@ -9,7 +9,7 @@ Output ONLY valid JSON. No markdown, no code blocks, no extra text.
   "clarification_question": null,
   "confidence": 0.0,
   "query": {
-    "intent": "top_spending_ytd" | "transactions_list" | "recurring_payments" | "unrecognized_transaction",
+    "intent": "category_spending_analysis" | "top_spending_ytd" | "transactions_list" | "recurring_payments" | "unrecognized_transaction",
     "time_range": {
       "mode": "preset" | "relative" | "custom",
       "preset": "ytd" | "this_month" | "last_month" | null,
@@ -53,14 +53,32 @@ Intent Mapping (EXACT phrases):
    => intent="account_balance"
    CRITICAL: "balance" always means account balance, NOT transaction list
    
-2. If message contains "recognize" OR "dispute" OR "unknown" with "transaction":
+2. CATEGORY SPENDING ANALYSIS - HIGHEST PRIORITY:
+   If the message contains BOTH:
+   a) Keywords: "too much" OR "overspend" OR "overspending" OR "spending high"
+   AND
+   b) A specific category name like: dining, food, groceries, transport, shopping, utilities, subscriptions
+   
+   Then STOP and use: intent="category_spending_analysis"
+   DO NOT CONTINUE to other rules. DO NOT use top_spending_ytd or transactions_list.
+   
+   Examples that MUST match this rule:
+   - "Do I spend too much on dining?" → category_spending_analysis
+   - "Am I overspending on groceries?" → category_spending_analysis  
+   - "Is my transport spending high?" → category_spending_analysis
+   
+   => intent="category_spending_analysis"
+   => params.category: the category name (e.g., "dining", "groceries", "transport")
+   => time_range: mode="preset", preset="this_month"
+   
+3. If message contains "recognize" OR "dispute" OR "unknown" with "transaction":
    => intent="unrecognized_transaction"
    
-3. If message contains "subscription" OR "recurring" OR "bill" OR "monthly charges" OR "monthly payments":
+4. If message contains "subscription" OR "recurring" OR "bill" OR "monthly charges" OR "monthly payments":
    => intent="recurring_payments"
    => CRITICAL: Do NOT use time_range based on "monthly" - it means recurring patterns, not a time filter
    
-4. If message contains ANY of these patterns, use top_spending_ytd (aggregated by category):
+5. If message contains ANY of these patterns, use top_spending_ytd (aggregated by category):
    - MUST have "top" keyword: "top spending" OR "top spendings"
    - "biggest spending" OR "most spending"
    - "where" with "money" or "spend" (e.g., "where does my money go")
@@ -72,7 +90,7 @@ Intent Mapping (EXACT phrases):
    
    CRITICAL: "spending this month" WITHOUT "top" = transactions_list, NOT top_spending_ytd
    
-5. Otherwise (including "my spending", "show spending", "spending this month" without "top"):
+6. Otherwise (including "my spending", "show spending", "spending this month" without "top"):
    => intent="transactions_list"
 
 2) If is_banking_domain is false or null:

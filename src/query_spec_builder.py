@@ -34,7 +34,7 @@ async def compile_queryspec(message: str, context: Optional[ConversationContext]
         message_lower = message.lower()
         
         # Fix -1: Force is_banking_domain=true if intent is a banking intent
-        banking_intents = ["transactions_list", "top_spending_ytd", "recurring_payments", "unrecognized_transaction", "account_balance"]
+        banking_intents = ["transactions_list", "top_spending_ytd", "recurring_payments", "unrecognized_transaction", "account_balance", "category_spending_analysis"]
         if llm_response.intent in banking_intents and llm_response.is_banking_domain == False:
             print(f"[FIX] Overriding is_banking_domain=False to True because intent={llm_response.intent}")
             llm_response = QuerySpec(
@@ -42,6 +42,24 @@ async def compile_queryspec(message: str, context: Optional[ConversationContext]
                 intent=llm_response.intent,
                 time_range=llm_response.time_range,
                 params=llm_response.params
+            )
+        
+        # Fix -2: Category spending analysis - detect "too much" pattern
+        # Safely override to category_spending_analysis if we detect specific keywords
+        category_keywords = ["dining", "food", "groceries", "transport", "shopping", "utilities", "subscriptions", "entertainment", "housing"]
+        detected_category = None
+        for cat in category_keywords:
+            if cat in message_lower:
+                detected_category = cat
+                break
+        
+        if detected_category and ("too much" in message_lower or "overspend" in message_lower or "spending high" in message_lower):
+            print(f"[FIX] Detected category spending analysis pattern - category={detected_category}")
+            llm_response = QuerySpec(
+                is_banking_domain=True,
+                intent="category_spending_analysis",
+                time_range=TimeRange(mode="preset", preset="this_month"),
+                params={"category": detected_category}
             )
         
         # Fix 0: Balance queries - override LLM if it misclassifies

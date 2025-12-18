@@ -94,6 +94,9 @@ async def orchestrate_chat(req: ChatRequest) -> ChatResponse:
         ui = handle_top_spending_ytd(q, txs)
     elif q.intent == "recurring_payments":
         ui = handle_recurring_payments(q, txs)
+    elif q.intent == "category_spending_analysis":
+        from src.compute import handle_category_spending_analysis
+        ui = handle_category_spending_analysis(q)
     else:
         ui = UISpec(messages=[UIMessage(
             content="I didn't understand that request. Try: top spendings this year, last 30 days transactions, recurring subscriptions, or dispute a transaction."

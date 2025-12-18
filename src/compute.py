@@ -353,3 +353,88 @@ def handle_recurring_payments(q: QuerySpec, txs: List[Transaction]) -> UISpec:
         ],
     )
     return ui
+
+
+def handle_category_spending_analysis(q: QuerySpec) -> UISpec:
+    """
+    Mocked category spending analysis response.
+    Returns personalized insights about spending in a specific category.
+    """
+    category = q.params.get("category", "Dining").title()
+    
+    # Mock data variations based on category
+    mock_responses = {
+        "Dining": {
+            "current": "$412.37",
+            "purchases": 14,
+            "percent": "18%",
+            "total": "$2,288.10",
+            "above": "$120",
+            "typical": "$290",
+            "change": "+41%",
+            "target": "$520",
+            "daily": "$9",
+        },
+        "Food": {
+            "current": "$412.37",
+            "purchases": 14,
+            "percent": "18%",
+            "total": "$2,288.10",
+            "above": "$120",
+            "typical": "$290",
+            "change": "+41%",
+            "target": "$520",
+            "daily": "$9",
+        },
+        "Groceries": {
+            "current": "$385.20",
+            "purchases": 8,
+            "percent": "17%",
+            "total": "$2,288.10",
+            "above": "$85",
+            "typical": "$300",
+            "change": "+28%",
+            "target": "$450",
+            "daily": "$5",
+        },
+        "Transport": {
+            "current": "$145.80",
+            "purchases": 12,
+            "percent": "6%",
+            "total": "$2,288.10",
+            "above": "$45",
+            "typical": "$100",
+            "change": "+45%",
+            "target": "$150",
+            "daily": "$3",
+        },
+        "Shopping": {
+            "current": "$524.15",
+            "purchases": 9,
+            "percent": "23%",
+            "total": "$2,288.10",
+            "above": "$200",
+            "typical": "$324",
+            "change": "+62%",
+            "target": "$450",
+            "daily": "$8",
+        },
+    }
+    
+    # Get data for category or use Dining as default
+    data = mock_responses.get(category, mock_responses["Dining"])
+    
+    # Build the response message
+    today = date.today()
+    month_start = today.replace(day=1)
+    message = f"""**{category} this month** ({month_start.strftime('%b %d')}–{today.strftime('%b %d')}): {data['current']} ({data['purchases']} purchases) — {data['percent']} of your total spend ({data['total']}).
+
+That's about {data['above']} above your usual pace (~{data['typical']}, {data['change']}).
+
+To finish near your typical {data['target']}/month, keep {category.lower()} to about {data['daily']}/day for the rest of the month."""
+    
+    ui = UISpec(
+        messages=[UIMessage(content=message)],
+        components=[],
+    )
+    return ui

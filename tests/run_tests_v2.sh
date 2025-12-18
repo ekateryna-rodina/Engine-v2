@@ -167,9 +167,26 @@ else
 fi
 echo ""
 
-# 7. EDGE CASES
+# 7. CATEGORY SPENDING ANALYSIS
 echo "=========================================="
-echo "7. EDGE CASES & VARIATIONS"
+echo "7. CATEGORY SPENDING ANALYSIS"
+echo "=========================================="
+test_query "Spending too much - Dining" "Do I spend too much on dining this month?" "category_spending_analysis" "Dining this month"
+test_query "Overspending - Groceries" "Am I overspending on groceries?" "category_spending_analysis" "Groceries this month"
+test_query "High spending - Transport" "Is my transport spending high this month?" "category_spending_analysis" "Transport this month"
+test_query "Too much - Shopping" "Do I spend too much on shopping?" "category_spending_analysis" "Shopping this month"
+test_query "Overspending - Food" "Am I overspending on food?" "category_spending_analysis" "Food this month"
+test_query "High spending - Utilities" "Is my utilities spending high?" "category_spending_analysis" "Utilities this month"
+
+echo ""
+echo "Negative tests (should NOT trigger category_spending_analysis):"
+test_query "Regular spending query" "Show me my spending this month" "transactions_list" "transactions from"
+test_query "Top spending query" "Show me my top spending" "top_spending_ytd" "Total spending"
+test_query "Dining without 'too much'" "Show me dining transactions" "transactions_list" "transactions"
+
+# 8. EDGE CASES
+echo "=========================================="
+echo "8. EDGE CASES & VARIATIONS"
 echo "=========================================="
 test_query "This year" "show me transactions this year" "transactions_list" "year-to-date"
 test_query "YTD" "transactions ytd" "top_spending_ytd" "Total spending"

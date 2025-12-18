@@ -41,11 +41,12 @@ class CategoryTotal(BaseModel):
 
 # =========================
 # QuerySpec 
-# Only 4 intents supported for now:
-# 1. “What are my top spendings this year?” * Output: category + merchant breakdown (UISpec chart + summary) 
-# 2. “List my transactions for the last 30 days” * Output: table (include transaction id) 
-# 3. “I don’t recognize this transaction” * Requires context: selectedTransactionId from previous table * Output: explain posted vs pending + holds, and return a Dispute Form (FormSpec) prefilled 
-# 4. “Show me recurring payments/subscriptions”
+# Supported intents:
+# 1. "What are my top spendings this year?" * Output: category + merchant breakdown (UISpec chart + summary) 
+# 2. "List my transactions for the last 30 days" * Output: table (include transaction id) 
+# 3. "I don't recognize this transaction" * Requires context: selectedTransactionId from previous table * Output: explain posted vs pending + holds, and return a Dispute Form (FormSpec) prefilled 
+# 4. "Show me recurring payments/subscriptions"
+# 5. "Do I spend too much on [category]?" * Output: mocked spending analysis with comparison and recommendations
 # =========================
 
 Intent = Literal[
@@ -54,6 +55,7 @@ Intent = Literal[
     "recurring_payments",
     "unrecognized_transaction",
     "account_balance",
+    "category_spending_analysis",
 ]
 
 
