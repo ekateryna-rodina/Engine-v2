@@ -52,7 +52,8 @@ async def orchestrate_chat(req: ChatRequest) -> ChatResponse:
     """
     q = await compile_queryspec(req.message, req.context)
     
-    if not q.is_banking_domain:
+    # Treat is_banking_domain=null or false as non-banking queries
+    if q.is_banking_domain is False or q.is_banking_domain is None:
         ui = UISpec(messages=[UIMessage(
             content="I can help with banking/account questions (transactions, spending, balance). What would you like to check?"
         )])

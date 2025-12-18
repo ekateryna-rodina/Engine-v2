@@ -65,36 +65,39 @@ async def compile_queryspec(message: str, context: Optional[ConversationContext]
                     params=llm_response.params
                 )
         
-        # Fix 2: Ensure count-based queries have time_range=null and include the limit
-        # But first check if we need to CLEAR limit_only if there's actually a time range
-        has_time_pattern = _parse_time_range(message_lower) is not None
-        has_count_pattern = _parse_limit(message_lower) is not None
+        # Fix 2: Distinguish between count-based and time-based queries
+        # Count: "last 7 transactions", "recent 20 transactions"
+        # Time: "last 7 days", "last 2 weeks"
+        parsed_limit = _parse_limit(message_lower)
+        parsed_time = _parse_time_range(message_lower)
         
-        if has_time_pattern and llm_response.params.get("limit_only"):
-            # LLM incorrectly set limit_only for a time-based query - fix it
-            updated_params = {k: v for k, v in llm_response.params.items() if k != "limit_only"}
-            llm_response = QuerySpec(
-                is_banking_domain=llm_response.is_banking_domain,
-                intent=llm_response.intent,
-                time_range=llm_response.time_range if llm_response.time_range else _parse_time_range(message_lower),
-                params=updated_params
-            )
-        elif llm_response.params.get("limit_only") or (has_count_pattern and not has_time_pattern):
-            # This is a count-based query
+        # Check if the query explicitly mentions a time unit (days/weeks/months)
+        has_time_unit = bool(re.search(r"\b(day|days|week|weeks|month|months|year|years)\b", message_lower))
+        
+        # If user says "N transactions" (count pattern), treat as count-based
+        # But if they also mention time units like "transactions for 2 weeks", use time-based
+        if parsed_limit is not None and not has_time_unit:
+            # Pure count-based query: "last 7 transactions", "recent 20 transactions"
             updated_params = llm_response.params.copy()
             updated_params["limit_only"] = True
-            # ALWAYS use the parsed limit from user message if available (override LLM)
-            parsed_limit = _parse_limit(message_lower)
-            if parsed_limit is not None:
-                updated_params["limit"] = parsed_limit
-            elif "limit" not in updated_params or updated_params["limit"] is None:
-                updated_params["limit"] = 50  # Default fallback
+            updated_params["limit"] = parsed_limit
             llm_response = QuerySpec(
                 is_banking_domain=llm_response.is_banking_domain,
                 intent=llm_response.intent,
-                time_range=None,
+                time_range=None,  # Clear time_range for count-based queries
                 params=updated_params
             )
+        elif parsed_time is not None or has_time_unit:
+            # Time-based query: "last 2 weeks", "transactions for 7 days"
+            if llm_response.params.get("limit_only"):
+                # Remove limit_only if it's actually a time-based query
+                updated_params = {k: v for k, v in llm_response.params.items() if k != "limit_only"}
+                llm_response = QuerySpec(
+                    is_banking_domain=llm_response.is_banking_domain,
+                    intent=llm_response.intent,
+                    time_range=llm_response.time_range if llm_response.time_range else parsed_time,
+                    params=updated_params
+                )
         
         print(f"[QUERY_SPEC] Final is_banking_domain={llm_response.is_banking_domain}")
         return llm_response
