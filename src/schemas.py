@@ -53,6 +53,7 @@ Intent = Literal[
     "transactions_list",
     "recurring_payments",
     "unrecognized_transaction",
+    "account_balance",
 ]
 
 

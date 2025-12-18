@@ -157,6 +157,19 @@ def _describe_range(tr: TimeRange | None) -> str:
     return "recent history"
 
 
+def handle_account_balance(account_id: str) -> UISpec:
+    """
+    Handle account balance queries.
+    Returns a mocked balance for now.
+    """
+    # TODO: Replace with actual balance API call
+    mock_balance = 12458.73
+    
+    message = f"Your checking account balance is **{money(mock_balance)}**."
+    
+    return UISpec(messages=[UIMessage(content=message)])
+
+
 def handle_transactions_list(q: QuerySpec, txs: List[Transaction]) -> UISpec:
     limit = int(q.params.get("limit", 50))
     limit_only = q.params.get("limit_only", False)

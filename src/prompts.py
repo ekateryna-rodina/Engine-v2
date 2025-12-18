@@ -48,14 +48,17 @@ ONLY is_banking_domain=null for gibberish.
 
 Intent Mapping (EXACT phrases):
 
-1. If message contains "recognize" OR "dispute" OR "unknown" with "transaction":
+1. If message contains "balance" OR "how much money" OR "account balance":
+   => intent="account_balance"
+   
+2. If message contains "recognize" OR "dispute" OR "unknown" with "transaction":
    => intent="unrecognized_transaction"
    
-2. If message contains "subscription" OR "recurring" OR "bill" OR "monthly charges" OR "monthly payments":
+3. If message contains "subscription" OR "recurring" OR "bill" OR "monthly charges" OR "monthly payments":
    => intent="recurring_payments"
    => CRITICAL: Do NOT use time_range based on "monthly" - it means recurring patterns, not a time filter
    
-3. If message contains ANY of these patterns, use top_spending_ytd:
+4. If message contains ANY of these patterns, use top_spending_ytd:
    - "top spending" OR "top spendings"
    - "biggest spending" OR "most spending"
    - "where" with "money" or "spend" (e.g., "where does my money go")
@@ -65,7 +68,7 @@ Intent Mapping (EXACT phrases):
    => intent="top_spending_ytd"
    => time_range: mode="preset", preset="ytd"
    
-4. Otherwise:
+5. Otherwise:
    => intent="transactions_list"
 
 2) If is_banking_domain is false or null:
@@ -78,6 +81,10 @@ Intent Mapping (EXACT phrases):
 - clarification_question=null (MUST be null when clarification_needed=false)
 
 Intent-specific rules:
+
+For account_balance:
+- time_range=null (not needed for balance query)
+- params={} (no additional parameters needed)
 
 For unrecognized_transaction:
 - time_range=null (not needed for single transaction dispute)

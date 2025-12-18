@@ -133,7 +133,17 @@ def _compile_rules(message: str, context: Optional[ConversationContext]) -> Quer
             params={},
         )
 
-    # ---- 1) intent detection (only 4) ----
+    # ---- 1) intent detection ----
+    # Balance queries
+    if "balance" in text or "how much money" in text:
+        return QuerySpec(
+            is_banking_domain=True,
+            intent="account_balance",
+            time_range=None,
+            params={},
+        )
+    
+    # Unrecognized transaction
     if (
         "don't recognize" in text
         or "dont recognize" in text

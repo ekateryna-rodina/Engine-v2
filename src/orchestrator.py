@@ -59,7 +59,13 @@ async def orchestrate_chat(req: ChatRequest) -> ChatResponse:
         )])
         return ChatResponse(query=q, ui=ui)
     
-    # 1) Unrecognized transaction: needs tx id (from params OR UI context)
+    # 1) Account balance: no transactions needed
+    if q.intent == "account_balance":
+        from src.compute import handle_account_balance
+        ui = handle_account_balance(req.accountId)
+        return ChatResponse(query=q, ui=ui)
+    
+    # 2) Unrecognized transaction: needs tx id (from params OR UI context)
     if q.intent == "unrecognized_transaction":
         tx_id = None
         if q.params.get("transaction_id"):
@@ -77,7 +83,7 @@ async def orchestrate_chat(req: ChatRequest) -> ChatResponse:
         ui = handle_unrecognized_transaction(tx)
         return ChatResponse(query=q, ui=ui)
 
-    # 2) For the other intents: pull transactions for a single resolved range
+    # 3) For the other intents: pull transactions for a single resolved range
     limit_only = q.params.get("limit_only", False)
     start_d, end_d = resolve_time_range(q.time_range, limit_only=limit_only)
     txs = await tool_get_transactions(req.accountId, start_d.isoformat(), end_d.isoformat())
