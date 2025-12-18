@@ -15,4 +15,7 @@ COPY data/ ./data/
 
 EXPOSE 8000
 
+# Use unbuffered Python output so logs appear immediately
+ENV PYTHONUNBUFFERED=1
+
 CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]
