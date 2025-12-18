@@ -24,6 +24,9 @@ services:
       - "8000:8000"
     environment:
       - TOOL_BASE_URL=http://api:8000
+      - USE_OPENAI=${USE_OPENAI:-false}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}
       - OLLAMA_URL=http://ollama:11434/v1/chat/completions
       - OLLAMA_MODEL=llama3.2:latest
     depends_on:

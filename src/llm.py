@@ -1,21 +1,39 @@
 import re
 from typing import Any
 import httpx
-from src.config import OLLAMA_MODEL, OLLAMA_URL
+from src.config import USE_OPENAI, OPENAI_API_KEY, OPENAI_MODEL, OPENAI_URL, OLLAMA_MODEL, OLLAMA_URL
 from src.schemas import QuerySpec
 
 async def query_spec_call_llm(system_prompt: str, user_message: str) -> QuerySpec:
+        headers = {}
+        
+        if USE_OPENAI:
+            if not OPENAI_API_KEY:
+                raise ValueError("OPENAI_API_KEY must be set when USE_OPENAI=true")
+            headers["Authorization"] = f"Bearer {OPENAI_API_KEY}"
+            model = OPENAI_MODEL
+            url = OPENAI_URL
+        else:
+            model = OLLAMA_MODEL
+            url = OLLAMA_URL
+        
         async with httpx.AsyncClient(timeout=120) as client:
             payload: dict[str, Any] = {
-                "model": OLLAMA_MODEL,
+                "model": model,
                 "stream": False,
                 "messages": [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_message},
                 ],
-                "format": "json",
             }
-            r = await client.post(OLLAMA_URL, json=payload)
+            
+            # OpenAI uses response_format, Ollama uses format
+            if USE_OPENAI:
+                payload["response_format"] = {"type": "json_object"}
+            else:
+                payload["format"] = "json"
+            
+            r = await client.post(url, json=payload, headers=headers)
             r.raise_for_status()
             response_json = r.json()
             
